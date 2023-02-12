@@ -45,7 +45,7 @@ class BestBooks extends React.Component {
             <Carousel>
               {this.state.books.map(book => (
                 <Carousel.Item key={book._id}>
-                  <img className="bookImg" alt="image descriprtio" src="https://images.unsplash.com/photo-1483546363825-7ebf25fb7513?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" />
+                  <img className="bookImg" alt={book.description} src="https://images.unsplash.com/photo-1483546363825-7ebf25fb7513?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" />
                   <Carousel.Caption>
                     <h3>{book.title}</h3>
                     <p>{book.description}</p>
