@@ -1,4 +1,4 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap'); */
+
 body{
   background-image: url("https://images.unsplash.com/photo-1529148482759-b35b25c5f217?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80");
   /* filter: blur(1px); */
@@ -10,7 +10,7 @@ body{
   align-self: center;
   margin: auto;
   width: 100%;
-  font-family: 'Pacifico', cursive;
+  font-family: 'Pacifico';
   font-size: xx-large;
 }
 *{
@@ -22,7 +22,7 @@ body{
   color: blueviolet;
 }
 .bookImg{
-  width: 80rem;
+  width: 50rem;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -41,10 +41,17 @@ body{
   font-weight: 500;
   backdrop-filter: blur(4px);
   border-radius: 30px;
+  font-size: medium;
 
 }
 .carousel-indicators{
   align-self: center;
   margin: auto;
   margin-bottom: 5rem;
+}
+button.btn.btn-primary{
+  width: 200px;
+}
+button.btn.btn-danger{
+  width: 200px;
 }

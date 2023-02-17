@@ -5,15 +5,11 @@ class AddForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const newBook = {
+    const newBook ={
       title: e.target.title.value,
       description: e.target.description.value,
-      status: e.target.status.value,
-
+      status: e.target.status.value
     }
-    console.log(e.target.title.value);
-    console.log(e.target.description.value);
-    console.log(e.target.status.value);
 
     this.props.postBook(newBook);
   }
@@ -32,7 +28,7 @@ class AddForm extends React.Component {
             <Form.Control type="text" placeholder="Type your description of the book here..." />
           </Form.Group>
 
-          <Form.Group controlId="status">
+          <Form.Group controlId="Status">
             <Form.Label>Book status</Form.Label>
             <Form.Control type="text" placeholder="Is your book read/unread/in progress?" />
           </Form.Group>
