@@ -2,7 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { Carousel } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import BookFormModal from './BookFormModal'
+import BookFormModal from './BookFormModal';
+import UpdateModal from './UpdateModal'
 
 // import Image from 'react-bootstrap/Image';
 
@@ -16,10 +17,12 @@ class BestBooks extends React.Component {
     this.state = {
       books: [],
       showModal: false,
+      showUpdateModal: false,
+      bookToUpdate: {}
     }
 
 
-  } 
+  }
   handleShowModal = () => {
     console.log('handle show modal has fired!')
     this.setState({
@@ -27,13 +30,26 @@ class BestBooks extends React.Component {
     })
 
 
-  }; 
-  
+  };
+
+  handleShowUpdateModal = (book) => {
+    console.log(book)
+    this.setState({ showUpdateModal: true, bookToUpdate: book })
+
+  }
+
+  handleCloseUpdateModal = () => {
+    console.log('CLOSE UPDATE MODAL FIRED')
+    this.setState({ showUpdateModal: false })
+
+  }
+
+
   handleCloseModal = () => {
     console.log('CLOSE modal has fired!')
     this.setState({
       showModal: false,
-    })
+    },() => console.log(this.state.showModal))
 
 
   }
@@ -56,30 +72,41 @@ class BestBooks extends React.Component {
   }
 
 
-  postBook = async (newBook) =>{
-    try{
+  postBook = async (newBook) => {
+    try {
       let url = `${process.env.REACT_APP_SERVER}/books`;
       const response = await axios.post(url, newBook)
       console.log(response.data);
       //Using elipses/spread to copy over old data and add new book into new array
-      this.setState({books: [...this.state.books, response.data]})
+      this.setState({ books: [...this.state.books, response.data] })
     }
-    catch(err){console.error(err)}
+    catch (err) { console.error(err) }
   }
 
 
 
-  deleteBook = async(_id) => {
-    try{
+  deleteBook = async (_id) => {
+    try {
       console.log("DELETE REQUEST RECEIVED")
       let url = `${process.env.REACT_APP_SERVER}/books/${_id}`;
       await axios.delete(url);
       let updatedBooks = this.state.books.filter(book => book._id !== _id);
-      this.setState({books: updatedBooks});
+      this.setState({ books: updatedBooks });
     }
-    catch(err){console.error(err)}
+    catch (err) { console.error(err) }
   }
 
+  putBook = async (updatedBook) => {
+    console.log("PUT REQUEST RECEIVED")
+
+    try {
+      let url = `${process.env.REACT_APP_SERVER}/books/${updatedBook._id}`;
+      await axios.put(url, updatedBook);
+      const updatedBookArr = this.state.books.map(oldBook => updatedBook._id === oldBook._id ? updatedBook : oldBook);
+      this.setState({ books: updatedBookArr });
+    }
+    catch (err) { console.error(err); }
+  }
 
 
   render() {
@@ -101,15 +128,33 @@ class BestBooks extends React.Component {
                     <h1>{book.title}</h1>
                     <p>{book.description}</p>
                     <p>{book.status}</p>
+
+                    <Button onClick={() => this.handleShowUpdateModal(book)}
+                      variant="success">Update book status?</Button>{''}
+
+
                     <Button onClick={() => this.deleteBook(book._id)} variant="danger">Delete book?</Button>{''}
                   </Carousel.Caption>
                 </Carousel.Item>
               ))}
             </Carousel>
-            <BookFormModal showModal={this.state.showModal} handleCloseModal={this.handleCloseModal} postBook = {this.postBook}/>
+
+            <BookFormModal showModal={this.state.showModal} handleCloseModal={this.handleCloseModal} postBook={this.postBook} />
+
             <>
+
               <Button onClick={this.handleShowModal} variant="primary">ADD NEW BOOK</Button>{''}
+
             </>
+
+            <UpdateModal
+
+              bookToUpdate={this.state.bookToUpdate}
+              handleCloseUpdateModal={this.handleCloseUpdateModal}
+              showUpdateModal={this.state.showUpdateModal}
+              putBook={this.putBook}
+            />
+
           </>
           // <>
           // {this.state.books.map(book=>
