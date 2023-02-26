@@ -3,18 +3,15 @@ import Header from './Header';
 import Footer from './Footer';
 import BestBooks from './BestBooks';
 import About from './About'
+import Profile from './Profile'
 import {
   BrowserRouter as Router,
   Routes,
   Route
 } from "react-router-dom";
+import { withAuth0 } from '@auth0/auth0-react';
 
-//TODO: send over to the backend, from the modal form (BookFormModal.js) an Object in the format of:
-// {
-//   "title": "RadicalBook The Second Encounter",
-//   "description": "Gordon Freeman is a scientist that",
-//   "status": "Unread"
-// }
+
 
 
 
@@ -32,16 +29,11 @@ class App extends React.Component {
         <Router>
 
           <h1>Library </h1>
-          {/* <nav>
-          <Link to="/">Home</Link>
-
-          <Link to="/about">About</Link>
-        </nav> */}
           <Header className='header' />
           <Routes>
             <Route
               exact path="/"
-              element={<BestBooks />}
+              element={this.props.auth0.isAuthenticated &&<BestBooks />}
             >
             </Route>
             <Route
@@ -49,7 +41,11 @@ class App extends React.Component {
               element={<About />}
             >
             </Route>
-
+            <Route
+              path="/profile"
+              element={<Profile />}
+            >
+            </Route>
           </Routes>
 
 
@@ -61,4 +57,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withAuth0(App);
